@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+        }
+
+        input[type="file"], input[type="button"] {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            background-color: #28a745;
+        }
+
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        input[type="file"]:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        #contact-section {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px; /* Adjust the space between the cards */
+            text-align: center; /* Center the text for each profile card */
+        }
+
+        .profile-card {
+            width: 150px; /* Set the width of the card */
+            margin-bottom: 20px; /* Space below each card */
+        }
+
+        .profile-image {
+            width: 100%; /* Make image fill the card width */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 50%; /* Round the corners of the image */
+            margin-bottom: 10px; /* Space below the image */
+        }
+
+        /* Add responsive adjustments if needed */
+        @media screen and (max-width: 600px) {
+            #contact-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .profile-card {
+                width: auto; /* Cards will take the width of the content on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contact Section Content -->
+  <section id="contact-section">
+    <h2>Contact Us</h2>
+    <div class="profile-card">
+      <img src="Ethan.png" alt="Ethan Stalkup" class="profile-image">
+      <h3>Ethan Stalkup</h3>
+      <p>A student from University of Florida</p>
+    </div>
+
+    <div class="profile-card">
+      <img src="Chris.png" alt="Christopher Volstad" class="profile-image">
+      <h3>Christopher Volstad</h3>
+      <p>A student from University of Florida</p>
+    </div>
+
+    <div class="profile-card">
+      <img src="Daniel_Lee.png" alt="Daniel Lee" class="profile-image">
+      <h3>Daniel Lee</h3>
+      <p>A student from University of Florida</p>
+      <a href="mailto:daniellee@ufl.edu">daniellee@ufl.edu</a>
+    </div>
+    <!-- More content for the Contact section... -->
+  </section>
+    <div>
+
+        <div>
+            <input type="file" name="file" id="file" accept=".csv" ><br><br>
+            <input type="button" id="btnsubmit" value="Submit" onclick="readCSVFile();">
+        </div>
+
+        <br><br>
+        <!-- List CSV file data -->
+        <table id="tblcsvdata" border="1" style="border-collapse: collapse;">
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Script -->
+    <script type="text/javascript">
+    function readCSVFile(){
+        var files = document.querySelector('#file').files;
+
+        if(files.length > 0){
+            var file = files[0];
+
+            var reader = new FileReader();
+
+            reader.readAsText(file);
+
+            reader.onload = function(event){
+                var csvdata = event.target.result;
+
+                var rowData = csvdata.split('\n');
+
+                var tbodyEl = document.getElementById('tblcsvdata').getElementsByTagName('tbody')[0];
+                tbodyEl.innerHTML = "";
+
+                for(var row = 0;row<rowData.length;row++){
+                    var newRow = tbodyEl.insertRow();
+                    rowColData = rowData[row].split(',');
+                    
+                    for(var col=0; col<rowColData.length; col++){
+                        var newCell = newRow.insertCell();
+                        newCell.innerHTML = rowColData[col];
+                    }
+                }
+            };
+        }else{
+            alert("Please select a file.")
+        }
+    }
+    </script>
+</body>
+</html>
