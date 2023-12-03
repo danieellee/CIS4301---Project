@@ -101,7 +101,7 @@ ORDER BY
     
 
 -- Query 5
--- How does an increase of crime rate or economic growth overtime in an area have an effect on the sale price of a property and the amount of time that the property sits on the market waiting for a buyer?
+-- How does an increase of crime rate or economic growth overtime in an area have an effect on the amount of time that the property sits on the market waiting for a buyer?
 CREATE TABLE crime_rate_econ_grow_affect_house AS
 SELECT 
     res.town, 
@@ -130,8 +130,7 @@ ORDER BY
     res.town, 
     res.listyear;
 
-SELECT * FROM crime_affect_avg_rs;
-SELECT * FROM afford_house;
-SELECT * FROM sale_impact_city;
-SELECT * FROM high_avgPrice_month;
-SELECT * FROM crime_rate_econ_grow_affect_house;
+
+SELECT COUNT(*) AS Number_of_Tuples_in_Real_Estate_Sales FROM real_estate_sales;
+SELECT COUNT(*) AS Number_of_Tuples_in_Crime_Data FROM crime_data;
+SELECT COUNT(*) AS Number_of_Tuples_in_Income_Data FROM income_data;
