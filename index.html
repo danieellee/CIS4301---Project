@@ -1,101 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-            color: #333;
-        }
-
-        input[type="file"], input[type="button"] {
-            padding: 10px;
-            margin: 5px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-        }
-
-        input[type="file"] {
-            background-color: #28a745;
-        }
-
-        input[type="button"]:hover {
-            background-color: #0056b3;
-        }
-
-        input[type="file"]:hover {
-            background-color: #218838;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #007bff;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #ddd;
-        }
-
-        #contact-section {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px; /* Adjust the space between the cards */
-            text-align: center; /* Center the text for each profile card */
-        }
-
-        .profile-card {
-            width: 150px; /* Set the width of the card */
-            margin-bottom: 20px; /* Space below each card */
-        }
-
-        .profile-image {
-            width: 100%; /* Make image fill the card width */
-            height: auto; /* Maintain aspect ratio */
-            border-radius: 50%; /* Round the corners of the image */
-            margin-bottom: 10px; /* Space below the image */
-        }
-
-        /* Add responsive adjustments if needed */
-        @media screen and (max-width: 600px) {
-            #contact-section {
-                flex-direction: column;
-                align-items: center;
-            }
-            .profile-card {
-                width: auto; /* Cards will take the width of the content on smaller screens */
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Connecticut Real Estate Data Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #data-container { display: flex; }
+    .data-display { white-space: pre; flex: 1; margin: 10px; padding: 10px; border: 1px solid #ddd; overflow-x: auto; }
+    .error-message { color: red; }
+  </style>
 </head>
 <body>
-    <!-- Contact Section Content -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#home-section">Home</a></li>
+        <li><a href="#contact-section">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home-section">
+    <h1>Welcome to Connecticut Real Estate Data Viewer</h1>
+    <p>Discover properties across Connecticut.</p>
+    <input type="text" id="search-box" placeholder="Enter a town in Connecticut">
+    <button id="search-button">Search</button>
+    <div id="data-container">
+      <h2>Crime Data</h2>
+      <div id="crime-data-display" class="data-display"></div>
+      <h2>Income Data</h2>
+      <div id="income-data-display" class="data-display"></div>
+      <h2>Real Estate Data</h2>
+      <div id="real-estate-data-display" class="data-display"></div>
+    </div>
+  </section>  
+  
   <section id="contact-section">
     <h2>Contact Us</h2>
     <div class="profile-card">
@@ -118,54 +58,12 @@
     </div>
     <!-- More content for the Contact section... -->
   </section>
-    <div>
 
-        <div>
-            <input type="file" name="file" id="file" accept=".csv" ><br><br>
-            <input type="button" id="btnsubmit" value="Submit" onclick="readCSVFile();">
-        </div>
+  <footer>
+    <p>&copy; 2023 Connecticut Home Finders</p>
+  </footer>
 
-        <br><br>
-        <!-- List CSV file data -->
-        <table id="tblcsvdata" border="1" style="border-collapse: collapse;">
-            <tbody></tbody>
-        </table>
-    </div>
+  <script src="scripts.js"></script>
 
-    <!-- Script -->
-    <script type="text/javascript">
-    function readCSVFile(){
-        var files = document.querySelector('#file').files;
-
-        if(files.length > 0){
-            var file = files[0];
-
-            var reader = new FileReader();
-
-            reader.readAsText(file);
-
-            reader.onload = function(event){
-                var csvdata = event.target.result;
-
-                var rowData = csvdata.split('\n');
-
-                var tbodyEl = document.getElementById('tblcsvdata').getElementsByTagName('tbody')[0];
-                tbodyEl.innerHTML = "";
-
-                for(var row = 0;row<rowData.length;row++){
-                    var newRow = tbodyEl.insertRow();
-                    rowColData = rowData[row].split(',');
-                    
-                    for(var col=0; col<rowColData.length; col++){
-                        var newCell = newRow.insertCell();
-                        newCell.innerHTML = rowColData[col];
-                    }
-                }
-            };
-        }else{
-            alert("Please select a file.")
-        }
-    }
-    </script>
 </body>
 </html>

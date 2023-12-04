@@ -1,0 +1,155 @@
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+header {
+  background-color: #0066CC;
+  color: white;
+  padding: 1rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+nav ul li {
+  margin-right: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+#search-area {
+  margin: 20px;
+  text-align: center;
+}
+
+#search-box {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #0078ae;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #005f7a;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Use 100% of the viewport height */
+  margin: 0;
+  /* Reset any default margin */
+}
+
+main {
+  flex: 1;
+  /* This will make the main content expand */
+  /* Add your styles for main content here */
+}
+
+footer {
+  background-color: #0066CC;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  /* Remove position:absolute and bottom:0 if they are still there */
+}
+
+
+.profile-card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1em;
+  margin: 1em 0;
+  text-align: center;
+}
+
+.profile-image {
+  max-width: 100px;
+  /* Adjust as necessary */
+  border-radius: 50%;
+  margin-bottom: 1em;
+}
+
+.profile-card h3 {
+  margin: 0.5em 0;
+}
+
+.profile-card p {
+  margin: 0.5em 0;
+}
+
+.profile-card a {
+  color: #007BFF;
+  /* Or any other color */
+  text-decoration: none;
+}
+
+.profile-card a:hover {
+  text-decoration: underline;
+}
+
+
+#graphs-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* creates two columns */
+  grid-column-gap: 20px;
+  /* adds space between the columns */
+  justify-items: center;
+  /* center items horizontally */
+  align-items: start;
+  /* align items to the start vertically */
+}
+
+.graph-container {
+  display: grid;
+  grid-template-rows: auto auto;
+  /* creates two rows: one for the graph, one for the buttons */
+  grid-row-gap: 10px;
+  /* adds space between the rows */
+  width: 100%;
+  /* sets the width to fill the container */
+}
+
+/* Directly style the canvas with a class or id if possible */
+canvas {
+  width: 100%;
+  /* ensure the canvas is full width */
+  height: auto;
+  /* maintain aspect ratio */
+}
+
+/* Style for the button container */
+.button-container {
+  display: flex;
+  /* Use flexbox to layout buttons */
+  justify-content: center;
+  /* Center buttons in the container */
+  flex-wrap: wrap;
+  /* Allow buttons to wrap to a new line if needed */
+  gap: 10px;
+  /* Space out buttons */
+}
+
+.button-container button {
+  flex: 0 1 auto;
+  /* Buttons can shrink but not grow */
+}
