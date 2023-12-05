@@ -6,8 +6,10 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     body { font-family: Arial, sans-serif; }
-    #data-container { display: flex; }
-    .data-display { white-space: pre; flex: 1; margin: 10px; padding: 10px; border: 1px solid #ddd; overflow-x: auto; }
+    #chart-container, #data-container { display: flex; flex-wrap: wrap; justify-content: space-around; }
+    .chart, .data-display { margin: 10px; padding: 10px; border: 1px solid #ddd; }
+    .chart { flex-basis: 100%; }
+    .data-display { white-space: pre; overflow-x: auto; }
     .error-message { color: red; }
   </style>
 </head>
@@ -26,6 +28,7 @@
     <p>Discover properties across Connecticut.</p>
     <input type="text" id="search-box" placeholder="Enter a town in Connecticut">
     <button id="search-button">Search</button>
+    <div id="chart-container"></div>
     <div id="data-container">
       <h2>Crime Data</h2>
       <div id="crime-data-display" class="data-display"></div>
@@ -62,7 +65,8 @@
   <footer>
     <p>&copy; 2023 Connecticut Home Finders</p>
   </footer>
-
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="scripts.js"></script>
 
 </body>

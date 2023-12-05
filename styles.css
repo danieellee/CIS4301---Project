@@ -106,50 +106,22 @@ footer {
   text-decoration: underline;
 }
 
-
-#graphs-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  /* creates two columns */
-  grid-column-gap: 20px;
-  /* adds space between the columns */
-  justify-items: center;
-  /* center items horizontally */
-  align-items: start;
-  /* align items to the start vertically */
-}
-
-.graph-container {
-  display: grid;
-  grid-template-rows: auto auto;
-  /* creates two rows: one for the graph, one for the buttons */
-  grid-row-gap: 10px;
-  /* adds space between the rows */
-  width: 100%;
-  /* sets the width to fill the container */
-}
-
-/* Directly style the canvas with a class or id if possible */
-canvas {
-  width: 100%;
-  /* ensure the canvas is full width */
-  height: auto;
-  /* maintain aspect ratio */
-}
-
-/* Style for the button container */
-.button-container {
+#chart-container {
   display: flex;
-  /* Use flexbox to layout buttons */
-  justify-content: center;
-  /* Center buttons in the container */
   flex-wrap: wrap;
-  /* Allow buttons to wrap to a new line if needed */
-  gap: 10px;
-  /* Space out buttons */
+  justify-content: center;
+  align-items: flex-start; /* Align to the top */
 }
 
-.button-container button {
-  flex: 0 1 auto;
-  /* Buttons can shrink but not grow */
+.chart {
+  width: 100%; /* Full width of its parent */
+  margin: 20px 0; /* Margin top and bottom */
 }
+
+.chart canvas {
+  display: block; /* Remove inline default */
+  max-width: 600px; /* Maximum width of each chart */
+  height: 250px !important; /* Fixed height for each chart */
+  margin: auto; /* Center in the chart container */
+}
+
