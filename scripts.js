@@ -15,7 +15,7 @@ document.getElementById('search-button').addEventListener('click', async () => {
     ]);
 
     plotCrimeData(crimeData);
-
+    
     displayData(crimeData, 'crime-data-display');
     displayData(incomeData, 'income-data-display');
     displayData(realEstateData, 'real-estate-data-display');
@@ -47,6 +47,29 @@ function displayData(data, elementId) {
   const formattedData = JSON.stringify(data, null, 2);
   display.textContent = formattedData;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetchAndDisplayQueryData();
+});
+
+async function fetchAndDisplayQueryData() {
+  try {
+    const propertyCrimeVsRealEstateData = await fetchData('http://localhost:3000/api/property-crime-vs-real-estate');
+    plotPropertyCrimeVsRealEstate(propertyCrimeVsRealEstateData, 'property-crime-vs-real-estate-chart-container', 'property-crime-vs-real-estate-data-display');
+
+    const housingAffordabilityData = await fetchData('http://localhost:3000/api/housing-affordability');
+    plotHousingAffordability(housingAffordabilityData, 'housing-affordability-chart-container', 'housing-affordability-data-display');
+
+    const cityGrowthSalesRatioData = await fetchData('http://localhost:3000/api/city-growth-sales-ratio');
+    plotCityGrowthSalesRatio(cityGrowthSalesRatioData, 'city-growth-sales-ratio-chart-container', 'city-growth-sales-ratio-data-display');
+
+    const monthlyAverageSalePriceData = await fetchData('http://localhost:3000/api/monthly-sale-price');
+    plotMonthlyAverageSalePrice(monthlyAverageSalePriceData, 'monthly-average-sale-price-chart-container', 'monthly-average-sale-price-data-display');
+  } catch (error) {
+    console.error('Error fetching data:', error.message);
+  }
+}
+
 
 function displayError(message) {
   // Clear all data displays
@@ -126,4 +149,175 @@ async function plotCrimeData(crimeData) {
     });
   });
 }
+
+function plotPropertyCrimeVsRealEstate(data, chartContainerId, dataDisplayId) {
+  const chartContainer = document.getElementById(chartContainerId);
+  chartContainer.innerHTML = '';
+
+  // Prepare data for plotting
+  const years = data.map(item => item[0]);
+  const totalCrimeValues = data.map(item => item[1]);
+  const averageSaleAmounts = data.map(item => item[2]);
+
+  // Create a canvas for the chart
+  const canvas = document.createElement('canvas');
+  canvas.id = 'property-crime-vs-real-estate-chart';
+  chartContainer.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: years,
+      datasets: [{
+        label: 'Total Crime Value',
+        data: totalCrimeValues,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+        yAxisID: 'y-axis-1',
+      }, {
+        label: 'Average Sale Amount',
+        data: averageSaleAmounts,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+        yAxisID: 'y-axis-2',
+      }]
+    },
+    options: {
+      scales: {
+        'y-axis-1': {
+          type: 'linear',
+          display: true,
+          position: 'left',
+        },
+        'y-axis-2': {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          grid: {
+            drawOnChartArea: false,
+          },
+        },
+      }
+    }
+  });
+}
+
+function plotHousingAffordability(data, chartContainerId, dataDisplayId) {
+  const chartContainer = document.getElementById(chartContainerId);
+  chartContainer.innerHTML = '';
+
+  // Prepare data for plotting
+  const years = data.map(item => item[0]);
+  const affordability = data.map(item => item[1]);
+
+  // Create a canvas for the chart
+  const canvas = document.createElement('canvas');
+  canvas.id = 'housing-affordability-chart';
+  chartContainer.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: years,
+      datasets: [{
+        label: 'Affordability',
+        data: affordability,
+        borderColor: 'rgba(153, 102, 255, 1)',
+        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+        fill: false,
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: false
+        }
+      }
+    }
+  });
+}
+
+function plotCityGrowthSalesRatio(data, chartContainerId, dataDisplayId) {
+  const chartContainer = document.getElementById(chartContainerId);
+  chartContainer.innerHTML = '';
+
+  // Group data by town
+  const dataByTown = data.reduce((acc, item) => {
+    const town = item[0];
+    if (!acc[town]) {
+      acc[town] = [];
+    }
+    acc[town].push({ year: item[1], ratio: item[2] });
+    return acc;
+  }, {});
+
+  Object.keys(dataByTown).forEach(town => {
+    // Create a canvas for each town
+    const canvas = document.createElement('canvas');
+    canvas.id = `sales-ratio-chart-${town.replace(/\s/g, '-')}`;
+    chartContainer.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: dataByTown[town].map(item => item.year),
+        datasets: [{
+          label: `${town} Sales Ratio`,
+          data: dataByTown[town].map(item => item.ratio),
+          borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
+          fill: false,
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
+  });
+}
+
+function plotMonthlyAverageSalePrice(data, chartContainerId, dataDisplayId) {
+  const chartContainer = document.getElementById(chartContainerId);
+  chartContainer.innerHTML = '';
+
+  // Prepare data for plotting
+  const months = data.map(item => item[0]);
+  const averageSalePrices = data.map(item => item[1]);
+
+  // Create a canvas for the chart
+  const canvas = document.createElement('canvas');
+  canvas.id = 'monthly-average-sale-price-chart';
+  chartContainer.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Average Sale Price',
+        data: averageSalePrices,
+        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
 
